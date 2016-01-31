@@ -1,6 +1,5 @@
 from selenium import webdriver
 import re
-import xlwt
 #https://www.zhihu.com/question/20777862/answer/27221618
 #https://www.zhihu.com/answer/6224783/voters_profile?total=563&offset=0
 que_id=raw_input('input the question id:')
