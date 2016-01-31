@@ -33,7 +33,10 @@ print 'Creating profile...'
 #patch all the names into a list.For I did not log in,a few voters were hidden by the host.
 
 could_be_script=[]
+count=0
 for i in voter_name:
+    count+=1
+    print count,i
     url='https://www.zhihu.com/people/' + i
     driver.get(url)
     vote_for_IDs=driver.find_elements_by_class_name('author-link')
@@ -56,7 +59,7 @@ for i in voter_name:
     #if yes,add it to the list
 
 print 'I think '+str(len(could_be_script))+' out of '+str(len(voter_name))+\
-      ' voters ('+ str(voter_num-len(voter_name))+'voters are not included due to tech reasons) '+\
+      ' voters ('+ str(voter_num-len(voter_name))+' voters are not included due to tech reasons) '+\
       'could be scripts.'
 print 'the list is as follows:'
 print could_be_script
