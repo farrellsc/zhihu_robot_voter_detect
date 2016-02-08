@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from selenium import webdriver
 import re
 import login_hahaha
@@ -14,16 +15,28 @@ class Question:
             'Text':None,
             'Answernum':None,
             'Followernum':0,
+            'Publish':None,
+            'Updated':'Never Updated',
+            'Reviewed':0,
             'Answers': {}
             }
+    def printq(self):
+        print 'Text',self.data['Text']
+        print 'Answernum',self.data['Answernum']
+        print 'Followernum',self.data['Followernum']
+        print 'Publish',self.data['Publish']
+        print 'Updated',self.data['Updated']
+        print 'Reviewed',self.data['Reviewed']
 class Answer(Question):
     def __init__(self):
         self.data={
-            'ID': None,
-            'Name': None,
-            'Publish':None,
-            'Edited':None,
-            'Text': None
+            'ID': 'None',
+            'Name': 'None',
+            'Publish':'None',
+            'Edited':'None',
+            'Text': 'None',
+            'Reviews':'0',
+            'Voters':{}
             }
     def printa(self):
         print 'ID',self.data['ID']
@@ -31,18 +44,21 @@ class Answer(Question):
         print 'Text',self.data['Text']
         print 'Publish',self.data['Publish']
         print 'Edited',self.data['Edited']
+        print 'Reviews',self.data['Reviews']
         print 'done'
         
 driver=login_hahaha.login()
-url='https://www.zhihu.com/question/22722259' 
+url='https://www.zhihu.com/question/40175228' 
 driver.get(url)
 'driver=get_question.process_question_page(driver)'
 question=Question()
 question=get_question.get_question(driver)
+print ' '
 question=get_answers.get_answers(driver,question)
 for i in question.data['Answers']:
-    print question.data['Answers'][i].printa()
+    answer_url=url+'/answer/'+question.data['Answers'][i].data['ID']
+    driver.get(answer_url)
+    i=get_voters.get_voter_id(driver,question.data['Answers'][i])
 '''
-question=get_voters.get_voter_id(driver.question)
 mkdir.mkdir(question)
 '''
