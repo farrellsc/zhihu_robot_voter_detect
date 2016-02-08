@@ -47,7 +47,7 @@ class Answer:
         print 'Edited',self.data['Edited']
         print 'Reviews',self.data['Reviews']
         print 'done'
-def get_answers(driver,question):
+def get_answers(driver,question,question_id):
     author_name=driver.find_elements_by_class_name('author-link')
     content=driver.page_source
     pattern_answer_ID=re.compile('data-atoken=\".{,15}\"')
@@ -56,7 +56,7 @@ def get_answers(driver,question):
     for i in answer_ID_raw:
         answer_ID.append(i[13:-1])
     for i in answer_ID:
-        url='https://www.zhihu.com/question/40175228/answer/'+i
+        url='https://www.zhihu.com/question/'+question_id+'/answer/'+i
         driver.get(url)
         answer=Answer()
         answer.data['ID']=i
