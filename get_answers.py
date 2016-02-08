@@ -15,16 +15,29 @@ class Question:
             'Text':None,
             'Answernum':None,
             'Followernum':0,
+            'Publish':None,#昨天
+            'Updated':'Never Updated',
+            'Reviewed':0,
             'Answers': {}
             }
-class Answer(Question):
+    def printq(self):
+        print 'Text',self.data['Text']
+        print 'Answernum',self.data['Answernum']
+        print 'Followernum',self.data['Followernum']
+        print 'Publish',self.data['Publish']
+        print 'Updated',self.data['Updated']
+        print 'Reviewed',self.data['Reviewed']
+class Answer:
     def __init__(self):
         self.data={
-            'ID': None,
-            'Name': None,
-            'Publish':None,
-            'Edited':None,
-            'Text': None
+            'ID': 'None',
+            'Name': 'None',
+            'Agree':'0',
+            'Publish':'None',
+            'Edited':'None',
+            'Text': 'None',
+            'Reviews':'0',
+            'Voters':{}
             }
     def printa(self):
         print 'ID',self.data['ID']
@@ -32,6 +45,7 @@ class Answer(Question):
         print 'Text',self.data['Text']
         print 'Publish',self.data['Publish']
         print 'Edited',self.data['Edited']
+        print 'Reviews',self.data['Reviews']
         print 'done'
 def get_answers(driver,question):
     author_name=driver.find_elements_by_class_name('author-link')
@@ -42,12 +56,17 @@ def get_answers(driver,question):
     for i in answer_ID_raw:
         answer_ID.append(i[13:-1])
     for i in answer_ID:
-        url='https://www.zhihu.com/question/22722259/answer/'+i
+        url='https://www.zhihu.com/question/40175228/answer/'+i
         driver.get(url)
         answer=Answer()
         answer.data['ID']=i
         answer.data['Name']=driver.find_element_by_class_name('author-link').text
         answer.data['Text']=driver.find_element_by_css_selector('div[class=\"zm-editable-content clearfix\"]').text
+        '''review_button=driver.find_elements_by_name('addcomment')
+        review_button[1].click()
+        reviews=driver.find_elements_by_name('addcomment')
+        answer.data['Reviews']=reviews[1].text[0:2]''' #bug
+        answer.data['Agree']=driver.find_element_by_class_name('count').text
         content=driver.page_source.split('\n')
         for line in content:
             if 'answer-date-link ' in line:
@@ -61,13 +80,10 @@ def get_answers(driver,question):
                     answer.data['Publish']=line[-14:-4]
                 break
         question.data['Answers'].setdefault(answer.data['ID'],answer)
-        #answer-date-link-wrap date
     return question
     
-    #div class="zh-summary summary clearfix" 回答内容
-    #a class="answer-date-link last_updated meta-item" 回答编辑日期， 用正则
+
     #h3 data-num="793" id="zh-question-answer-num">793 个回答
     #<span class="count">522</span>赞同
-    #a class="author-link" 回答作者
-    return answer
+
     
