@@ -36,11 +36,11 @@ def process_question_page(driver):
             break
     return driver
 
-def get_question(driver):
+def get_question(driver,question_id):
     question=Question()
     question.data['Text']=driver.find_element_by_css_selector("h2[class=\"zm-item-title zm-editable-content\"]").text[:-2]
     question.data['Answernum']=driver.find_element_by_css_selector("h3[id=\"zh-question-answer-num\"]").text[:-3]
-    question.data['Followernum']=driver.find_element_by_css_selector('a[href=\"/question/40175228/followers\"]').text
+    question.data['Followernum']=driver.find_element_by_css_selector('a[href=\"/question/'+question_id+'/followers\"]').text
     gray=driver.find_elements_by_css_selector('div[class=\"zg-gray-normal\"]')
     #line=question.data['Reviewed']=gray[2].text
     #line=line.split('，')[0]
