@@ -8,7 +8,7 @@ import get_voters
 import mkdir
 import os
 import time
-#https://www.zhihu.com/question/22722259
+#https://www.zhihu.com/question/40175228
 class Question:
     def __init__(self):
         self.data={
@@ -46,15 +46,16 @@ class Answer(Question):
         print 'Edited',self.data['Edited']
         print 'Reviews',self.data['Reviews']
         print 'done'
-        
+
+question_id=raw_input('input question id:')
 driver=login_hahaha.login()
-url='https://www.zhihu.com/question/40175228' 
+url='https://www.zhihu.com/question/'+question_id 
 driver.get(url)
 'driver=get_question.process_question_page(driver)'
 question=Question()
-question=get_question.get_question(driver)
+question=get_question.get_question(driver,question_id)
 print ' '
-question=get_answers.get_answers(driver,question)
+question=get_answers.get_answers(driver,question,question_id)
 for i in question.data['Answers']:
     answer_url=url+'/answer/'+question.data['Answers'][i].data['ID']
     driver.get(answer_url)
